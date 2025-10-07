@@ -109,13 +109,13 @@ En caso de que tuvieramos multiples constantes, podriamos exportarlas todas a la
 Una vez tenemos las constantes, ya podemos usarlas junto a la función .map() para crear listas de maneras dinamicas, esto lo podemos hacer la siguiente manera:
 
 ```
-                <ul>
-                    {navLinks.map((link) => (
-                        <li key={link.id}>
-                            <a href={`#${link.id}`}>{link.title}</a>
-                        </li>
-                    ))}
-                </ul>
+<ul>
+    {navLinks.map((link) => (
+        <li key={link.id}>
+            <a href={`#${link.id}`}>{link.title}</a>
+        </li>
+    ))}
+</ul>
 ```
 
 Es importante tener en cuenta, que cuando generemos algo de manera dinamica en react, deberemos de añadirle una propiedad key, sin esto, no funcionara.
@@ -125,22 +125,22 @@ Para utilizar imagenes tendremos que tenerlas en la carpeta **public** en nuestr
 Una vez tenemos el componente hecho, el cual seria el siguiente:
 
 ```
-        <nav>
-            <div>
-                <a href="#home" className='flex items-center gap-2'>
-                    <img src="/images/logo.png" alt="logo" />
-                    <p>Velvet Pour</p>
-                </a>
+<nav>
+    <div>
+        <a href="#home" className='flex items-center gap-2'>
+            <img src="/images/logo.png" alt="logo" />
+            <p>Velvet Pour</p>
+        </a>
   
-                <ul>
-                    {navLinks.map((link) => (
-                        <li key={link.id}>
-                            <a href={`#${link.id}`}>{link.title}</a>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        </nav>
+        <ul>
+            {navLinks.map((link) => (
+                <li key={link.id}>
+                    <a href={`#${link.id}`}>{link.title}</a>
+                </li>
+            ))}
+        </ul>
+    </div>
+</nav>
 ```
 
 Vamos a animarlo usando GSAP, para esto utilizaremos la función useGSAP(), la cual hay que importar y dentro crearemos una constante llamada **navTween**, el nombre es debido a que el tweening en la animación, es el proceso de crear imagenes que van entre los frames para que parezca real. 
@@ -148,41 +148,41 @@ Vamos a animarlo usando GSAP, para esto utilizaremos la función useGSAP(), la c
 Creamos la constante para usar una timeline a la cual aplicaremos el scrollTrigger, escogiendo como trigger la propia navbar, es decir, **nav** y pondremos que empiece cuando la parte inferior de la navbar alcance  la parte superior de la pantalla.
 
 ```
-    useGSAP(()=>{
-        const navTween = gsap.timeline({
-        })
-    },[])
+useGSAP(()=>{
+    const navTween = gsap.timeline({
+    })
+},[])
 ```
 
 Una vez tenemos eso, utilizaremos la función gsap.fromTo() para que la navbar tenga el fondo transparante pero acabe estando difuminada y un poco grisacia, ademas le añadiremos "power1.inOut", para que quede más suave la transición, ademas de una duración de un segundo para que no sea lento pero tampoco sea un cambio brusco:
 
 ```
-        navTween.fromTo('nav', { backgroundColor: 'transparent' }, {
-            backgroundColor: '#00000050',
-            backgroundFilter: 'blur(10px)',
-            duration: 1,
-            ease: 'power1.inOut'
-        });
+navTween.fromTo('nav', { backgroundColor: 'transparent' }, {
+    backgroundColor: '#00000050',
+    backgroundFilter: 'blur(10px)',
+    duration: 1,
+    ease: 'power1.inOut'
+});
 ```
 
 Nuestro codigo final para animar la navbar deberia verse tal que asi:
 
 ```
-    useGSAP(() => {
-        const navTween = gsap.timeline({
-            scrollTrigger: {
-                trigger: 'nav',
-                start: 'bottom top'
-            }
-        });
+useGSAP(() => {
+    const navTween = gsap.timeline({
+        scrollTrigger: {
+            trigger: 'nav',
+            start: 'bottom top'
+        }
+    });
 
-        navTween.fromTo('nav', { backgroundColor: 'transparent' }, {
-            backgroundColor: '#00000050',
-            backgroundFilter: 'blur(10px)',
-            duration: 1,
-            ease: 'power1.inOut'
-        });
-    }, []);
+    navTween.fromTo('nav', { backgroundColor: 'transparent' }, {
+        backgroundColor: '#00000050',
+        backgroundFilter: 'blur(10px)',
+        duration: 1,
+        ease: 'power1.inOut'
+    });
+}, []);
 ```
 
 ## Hero layout
@@ -190,29 +190,29 @@ Nuestro codigo final para animar la navbar deberia verse tal que asi:
 Lo primero que haremos sera creare su archivo correspondiente en la carpeta de componentes y añadirlo al App.jsx, de esta manera todo lo que hagamos podremos verlo facilmente en la pagina principal, empezaremos creando la estructura principal que es la siguiente:
 
 ```
-        <>
-            <section id='hero' className='noisy'>
-                <h1 className='title'>MOJITO</h1>
-                <img src="/images/hero-left-leaf.png" alt="left-leaf" className='left-leaf' />
-                <img src="/images/hero-right-leaf.png" alt="right-leaf" className='right-leaf' />
-                
-                <div className='body'>
-                    <div className='content'>
-                        <div className='space-y-5 hidden md:block'>
-                            <p>Cool. Crips. Classic</p>
-                            <p className='subtitle'>
-                                Sip the Spirit <br /> of Summer
-                            </p>
-                        </div>
-
-                        <div className='view-cocktails'>
-                            <p className='subtitle'>Every cocktail on our menu is a blend of premium ingredientes, creative flair, and timeless recipes - designed to delight your senses.</p>
-                            <a href="#cocktails">View Cocktails</a>
-                        </div>
-                    </div>
+<>
+    <section id='hero' className='noisy'>
+        <h1 className='title'>MOJITO</h1>
+        <img src="/images/hero-left-leaf.png" alt="left-leaf" className='left-leaf' />
+        <img src="/images/hero-right-leaf.png" alt="right-leaf" className='right-leaf' />
+        
+        <div className='body'>
+            <div className='content'>
+                <div className='space-y-5 hidden md:block'>
+                    <p>Cool. Crips. Classic</p>
+                    <p className='subtitle'>
+                        Sip the Spirit <br /> of Summer
+                    </p>
                 </div>
-            </section>
-        </>
+
+                <div className='view-cocktails'>
+                    <p className='subtitle'>Every cocktail on our menu is a blend of premium ingredientes, creative flair, and timeless recipes - designed to delight your senses.</p>
+                    <a href="#cocktails">View Cocktails</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</>
 ```
 
 Una vez tenemos la estructura principal con el texto, empezaremos a animar el texto, para esto vamos a utilizar el plugin que habiamos instalado y configurado previamente.
@@ -220,23 +220,23 @@ Una vez tenemos la estructura principal con el texto, empezaremos a animar el te
 Para animar el titulo letra por letra, deberemos de separar dicho texto por caracteres y palabras, mientras que los subtitulos los animaremos por linea, por lo que solamente tendremos que separarlos en lineas, para eso utilizaremos el siguiente codigo:
 
 ```
-    useGSAP(() => {
-        const heroSplit = new SplitText('.title', { type: 'chars, words' });
-        const paragraphSplit = new SplitText('.subtitle', { type: 'line' });
-    }, []);
+useGSAP(() => {
+    const heroSplit = new SplitText('.title', { type: 'chars, words' });
+    const paragraphSplit = new SplitText('.subtitle', { type: 'line' });
+}, []);
 ```
 
 Para animar el titulo principal, queremos añadir una clase especial a cada letra y además animar cada letra, para ello, usando la constante que hemos creado antes, llamada heroSplit, accederemos a las letras y por cada una le añadiremos la clase, ademas de animarlas posteriormente con gsap.from() para que aparezcan abajo y se vayan moviendo hacia arriba.
 
 ```
-        heroSplit.chars.forEach((char) => char.classList.add('text-gradient'));
+heroSplit.chars.forEach((char) => char.classList.add('text-gradient'));
 
-        gsap.from(heroSplit.chars, {
-            yPercent: 100,
-            duration: 1.8,
-            ease: 'expo.out',
-            stagger: 0.05
-        });
+gsap.from(heroSplit.chars, {
+    yPercent: 100,
+    duration: 1.8,
+    ease: 'expo.out',
+    stagger: 0.05
+});
 ```
 
 Es importante tener en cuenta que si hacemos una animación que no es rapida, aunque nos parezca llamativo, probablemente sea una mala idea, ya que podemos darle sensación de que la pagina funciona lento o mal al usuario y no es lo que queremos.
@@ -244,14 +244,14 @@ Es importante tener en cuenta que si hacemos una animación que no es rapida, au
 Para animar las lineas de los titulos inferiores, solamente queremos que aparezcan de abajo arriba y no se note muy brusco, por lo que le pondremos que empiecen con opacidad 0 y el resto sera practicamente igual que la animación anterior, excepto por el detalle de añadirle un segundo de delay, ya que si todas las animaciones ocurren a la vez, al usuario no le da tiempo a notarlas y verlas, por lo que parte de tu trabajo pasaria desapercibido.
 
 ```
-        gsap.from(paragraphSplit.lines, {
-            opacity: 0,
-            yPercent: 100,
-            duration: 1.8,
-            ease: 'expo.out',
-            stagger: 0.06,
-            delay: 1
-        });
+gsap.from(paragraphSplit.lines, {
+    opacity: 0,
+    yPercent: 100,
+    duration: 1.8,
+    ease: 'expo.out',
+    stagger: 0.06,
+    delay: 1
+});
 ```
 
 Como ahora queremos animar las hojas para cuando hagas scroll, deberemos de añadir un div temporal el cual tenga contenido para que podamos scrollear y poder hacer y comprobar la animación, en caso de que no añadir este div, no tendriamos forma de escrollear, por tanto, no podriamos comprobar la animación. (el div hay que añadirlo en la pagina de App.jsx).
@@ -265,16 +265,16 @@ Ahora, una vez podemos escrollear, si que podemos animar y comprobar la animaci�
 La animación empezara cuando la parte de arriba de nuestra sección hero, alcanze la parte de arriba de la pantalla y terminara cuando la parte de abajo de hero alcanze la parte de arriba de la pantalla, si añadimos la propiedad scrub, esto hara que se mueva de forma natural a la vez que scrolleamos en vez de hacerlo directamente, además de esto, como queremos hacer dos animaciones diferentes, tendremos que utilizar dos .to() para que una acabe más arriba y otra más abajo, para hacer que las dos animaciones empiecen a la vez, deberemos de añadirle un 0 como tercer argumento.
 
 ```
-        gsap.timeline({
-            scrollTrigger: {
-                trigger: '#hero',
-                start: 'top top',
-                end: 'bottom top',
-                scrub: true
-            }
-        })
-            .to('.right-leaf', { y: 200 }, 0)
-            .to('.left-leaf', { y: -200 }, 0);
+gsap.timeline({
+    scrollTrigger: {
+        trigger: '#hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true
+    }
+    })
+    .to('.right-leaf', { y: 200 }, 0)
+    .to('.left-leaf', { y: -200 }, 0);
 ```
 
 
