@@ -1,4 +1,8 @@
 
+Enlace a la web: https://velvet-pour-opal.vercel.app/
+
+---
+
 Creamos un proyecto de react, para hacerlo más ligero lo hacemos mediante [vite](https://vite.dev/):
 
 ```bash
@@ -97,7 +101,7 @@ Para crear un componente, deberemos de hacerlo en la carpeta **components** que 
 
 Para hacer el componente más sencillo, crearemos una carpeta llamada **constants** que ira en el directorio raiz, donde pondremos las constantes que vamos a utilizar para nuestros componentes, como en este caso cada enlace de la navbar. Es importante exportar las constantes para poder usarlas en los otros archivos
 
-```
+```javascript
 export const navLinks = [
     { id: 'cocktails', title: 'Cocktails' },
     { id: 'about', title: 'About Us' },
@@ -108,7 +112,7 @@ En caso de que tuvieramos multiples constantes, podriamos exportarlas todas a la
 
 Una vez tenemos las constantes, ya podemos usarlas junto a la función .map() para crear listas de maneras dinamicas, esto lo podemos hacer la siguiente manera:
 
-```
+```html
 <ul>
     {navLinks.map((link) => (
         <li key={link.id}>
@@ -124,7 +128,7 @@ Para utilizar imagenes tendremos que tenerlas en la carpeta **public** en nuestr
 
 Una vez tenemos el componente hecho, el cual seria el siguiente:
 
-```
+```html
 <nav>
     <div>
         <a href="#home" className='flex items-center gap-2'>
@@ -147,7 +151,7 @@ Vamos a animarlo usando GSAP, para esto utilizaremos la función useGSAP(), la c
 
 Creamos la constante para usar una timeline a la cual aplicaremos el scrollTrigger, escogiendo como trigger la propia navbar, es decir, **nav** y pondremos que empiece cuando la parte inferior de la navbar alcance  la parte superior de la pantalla.
 
-```
+```javascript
 useGSAP(()=>{
     const navTween = gsap.timeline({
     })
@@ -156,7 +160,7 @@ useGSAP(()=>{
 
 Una vez tenemos eso, utilizaremos la función gsap.fromTo() para que la navbar tenga el fondo transparante pero acabe estando difuminada y un poco grisacia, ademas le añadiremos "power1.inOut", para que quede más suave la transición, ademas de una duración de un segundo para que no sea lento pero tampoco sea un cambio brusco:
 
-```
+```javascript
 navTween.fromTo('nav', { backgroundColor: 'transparent' }, {
     backgroundColor: '#00000050',
     backgroundFilter: 'blur(10px)',
@@ -167,7 +171,7 @@ navTween.fromTo('nav', { backgroundColor: 'transparent' }, {
 
 Nuestro codigo final para animar la navbar deberia verse tal que asi:
 
-```
+```javascript
 useGSAP(() => {
     const navTween = gsap.timeline({
         scrollTrigger: {
@@ -189,7 +193,7 @@ useGSAP(() => {
 
 Lo primero que haremos sera creare su archivo correspondiente en la carpeta de componentes y añadirlo al App.jsx, de esta manera todo lo que hagamos podremos verlo facilmente en la pagina principal, empezaremos creando la estructura principal que es la siguiente:
 
-```
+```html
 <>
     <section id='hero' className='noisy'>
         <h1 className='title'>MOJITO</h1>
@@ -219,7 +223,7 @@ Una vez tenemos la estructura principal con el texto, empezaremos a animar el te
 
 Para animar el titulo letra por letra, deberemos de separar dicho texto por caracteres y palabras, mientras que los subtitulos los animaremos por linea, por lo que solamente tendremos que separarlos en lineas, para eso utilizaremos el siguiente codigo:
 
-```
+```javascript
 useGSAP(() => {
     const heroSplit = new SplitText('.title', { type: 'chars, words' });
     const paragraphSplit = new SplitText('.subtitle', { type: 'line' });
@@ -228,7 +232,7 @@ useGSAP(() => {
 
 Para animar el titulo principal, queremos añadir una clase especial a cada letra y además animar cada letra, para ello, usando la constante que hemos creado antes, llamada heroSplit, accederemos a las letras y por cada una le añadiremos la clase, ademas de animarlas posteriormente con gsap.from() para que aparezcan abajo y se vayan moviendo hacia arriba.
 
-```
+```javascript
 heroSplit.chars.forEach((char) => char.classList.add('text-gradient'));
 
 gsap.from(heroSplit.chars, {
@@ -243,7 +247,7 @@ Es importante tener en cuenta que si hacemos una animación que no es rapida, au
 
 Para animar las lineas de los titulos inferiores, solamente queremos que aparezcan de abajo arriba y no se note muy brusco, por lo que le pondremos que empiecen con opacidad 0 y el resto sera practicamente igual que la animación anterior, excepto por el detalle de añadirle un segundo de delay, ya que si todas las animaciones ocurren a la vez, al usuario no le da tiempo a notarlas y verlas, por lo que parte de tu trabajo pasaria desapercibido.
 
-```
+```javascript
 gsap.from(paragraphSplit.lines, {
     opacity: 0,
     yPercent: 100,
@@ -256,7 +260,7 @@ gsap.from(paragraphSplit.lines, {
 
 Como ahora queremos animar las hojas para cuando hagas scroll, deberemos de añadir un div temporal el cual tenga contenido para que podamos scrollear y poder hacer y comprobar la animación, en caso de que no añadir este div, no tendriamos forma de escrollear, por tanto, no podriamos comprobar la animación. (el div hay que añadirlo en la pagina de App.jsx).
 
-```
+```html
 <div className='h-dvh bg-black'></div>
 ```
 
@@ -264,7 +268,7 @@ Ahora, una vez podemos escrollear, si que podemos animar y comprobar la animaci�
 
 La animación empezara cuando la parte de arriba de nuestra sección hero, alcanze la parte de arriba de la pantalla y terminara cuando la parte de abajo de hero alcanze la parte de arriba de la pantalla, si añadimos la propiedad scrub, esto hara que se mueva de forma natural a la vez que scrolleamos en vez de hacerlo directamente, además de esto, como queremos hacer dos animaciones diferentes, tendremos que utilizar dos .to() para que una acabe más arriba y otra más abajo, para hacer que las dos animaciones empiecen a la vez, deberemos de añadirle un 0 como tercer argumento.
 
-```
+```javascript
 gsap.timeline({
     scrollTrigger: {
         trigger: '#hero',
@@ -288,7 +292,7 @@ Esta animación, aunque asi lo parece, es un video que nosotros haremos que func
 
 Es importante que tenga el inset-0 para que este por detras de todo y no tape nada, dentro del div añadiremos el video, importante poner el playsInLine para que no salga  nada del reproductor y el muted, para que no tenga sonido, no suele ser buena idea que tu pagina tenga videos con sonidos para hacer las animaciones
 
-```
+```html
 <div className='video absolute inset-0'>
   <video ref={videoRef} src="/videos/input.mp4" muted playsInline preload='auto' />
 </div>
@@ -332,7 +336,7 @@ videoRef.current.onloadedmetadata = () => {
 
 Si probramos la animación, veremos que va un poco rara, como si fuera a trozitos en vez de ir fluido, eso se debe a que el scrollTrigger de GSAP utilizar los keyframes de los videos y por norma general los videos solo suelen tener keyframes cada ciertos frames, por lo que deberemos de utilizar herramientas como FFmpeg para añadir cada frame como keyframe del video, de esta manera, ahora nuestra animación sera mucho más fluida y mejor.
 
-```
+```bash
 ffmpeg -i input.mp4 -vf scale=960:-1 -movflags faststart -vcodec libx264 -crf 20 -g 1 -pix_fmt yuv420p output.mp4
 ```
 
@@ -446,7 +450,7 @@ useGSAP(() => {
 
 Como siempre empezaremos creando un archivo llamado About.jsx en la carpeta de componentes el cual tendra lo esencial de react, es decir: 
 
-```
+```javascript
 import React from 'react';
 
 const About = () => {
@@ -460,7 +464,7 @@ export default About;
 
 y lo añadiremos al archivo principal, App.jsx, lo primero que tenemos que hacer es crear la estructura de la seccion, la cual es la siguiente:
 
-```
+```html
 <div id='about'>
     <div className='mb-16 md:px-0 px-5'>
         <div className='content'>
@@ -495,7 +499,7 @@ y lo añadiremos al archivo principal, App.jsx, lo primero que tenemos que hacer
 </div>
 ```
 
-La animación sera una animación bastante sencilla, en las que las letras apareceran una detras de otra, bastante similar a la animación principal del titulo MOJITO, pero esta vez en de estar y colocarse, van a aparecer, siendo una animación simple pero elegante, para ello tendremos que usar otra el SplitText, con el tipo de words, para que vaya palabra por palabra, en vez de letra por letra, le añadimos el scrolltrigger para que se active segun bajamos pero no le ponemos el scrub, ya que queremos que una vez se inicie la animación acabe y se queden todas las letras bien, ya que esto podria dificultar la lectura en caso de que estuviera el scrub
+La animación sera una animación bastante sencilla, en las que las letras apareceran una detras de otra, bastante similar a la animación principal del titulo MOJITO, pero esta vez en de estar y colocarse, van a aparecer, siendo una animación simple pero elegante, para ello tendremos que usar otra el SplitText, con el tipo de words, para que vaya palabra por palabra, en vez de letra por letra, le añadimos el scrolltrigger para que se active segun bajamos pero no le ponemos el scrub, ya que queremos que una vez se inicie la animación acabe y se queden todas las letras bien, ya que esto podria dificultar la lectura en caso de que estuviera el scrub.
 
 ```javascript
 useGSAP(() => {
@@ -520,16 +524,227 @@ useGSAP(() => {
 }, []);
 ```
 
-Importante aclarar  que en el segundo .from(), al estar animando 2 elementos diferentes, le añadimos un tercer parametro para que empiece la animación del segundo elemento cuando hayan pasado 0.5 segundos, es importante ponerlo con el -= ya que si no esperara al segundo 0.6 para iniciar la animación
+Importante aclarar  que en el segundo .from(), al estar animando 2 elementos diferentes, le añadimos un tercer parametro para que empiece la animación del segundo elemento cuando hayan pasado 0.5 segundos, es importante ponerlo con el -= ya que si no esperara al segundo 0.6 para iniciar la animación.
 
 ## Componente Art.jsx
 
 Lo primero que haremos sera crear un archivo llamado Art.jsx en la carpeta de componente y una vez hemos creado lo basico de React, lo añadiremos en la pagina principal, App.jsx, despues de eso crearemos la estructura basica de la pagina:
 
+```javascript
+import React from 'react'
+
+const Art = () => {
+  return (
+    <div>Art</div>
+  )
+}
+
+export default Art
 ```
 
+Lo primero que haremos sera crear la estructura de dicha pagina, este componente tendra dos listas que crearemos a partir de nuestras constantes goodLists y featureLists, además de una imagen en medio, la cual sera el principal atractivo ya que utilizaremos el mask, para darle un toque especial:
+
+```html
+<div id='art'>
+    <div className='container mx-auto h-full pt-20'>
+        <h2 className='will-fade'>The ART</h2>
+        <div className='content'>
+        
+            <ul className='space-y-4 will-fade'>
+                {goodLists.map((feature, index) => (
+                    <li key={index} className='flex items-center gap-2'>
+                        <img src="/images/check.png" alt="check" />
+                        <p>{feature}</p>
+                    </li>
+                ))}
+            </ul>
+            
+            <div className='cocktail-img'>
+                <img src="/images/under-img.jpg" alt="cocktail" className='abs-center masked-img size-full object-contain' />
+            </div>
+            
+            <ul className='space-y-4 will-fade'>
+                {featureLists.map((feature, index) => (
+                    <li key={index} className='flex items-center justify-start gap-2'>
+                        <img src="/images/check.png" alt="check" />
+                        <p className='md:w-fit-60'>{feature}</p>
+                    </li>
+                ))}
+            </ul>
+        </div>
+        
+        <div className='masked-container'>
+            <h2 className='will-fade'>Sip-Worthy Perfection</h2>
+            <div id='masked-content'>
+                <h3>Made with Craft, Poured with Passion</h3>
+                <p>This isn't just a drink. It's a carefully crafted moment made just for you.</p>
+            </div>
+        </div>
+    </div>
+</div>
 ```
+
+Es importante tener en cuenta que estamos usando las siguientes clases en nuestra imagen, ya que si no sabemos que estilos tenemos no podemos hacer nada:
+
+```css
+@utility masked-img {
+  mask-image: url("/images/mask-img.png");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 50%;
+}
+```
+
+Esto lo que hara sera utilizar una imagen como "ventana", es importante tener en cuenta el tamaño, ya que luego haremos que se agrande  para que parezca que "entramos" en la imagen, aunque no es una animación nueva o que exclusiva de gsap, es una animación tan elegante  que da un gran toque a la pagina y la haremos facilmente con gsap, para esto deberemos de tener todo el contenido en la animación de gsap, para añadir la propiedad de pin y se quede en la pantalla
+
+```javascript
+const isMobile = useMediaQuery({ maxWidth: 767 });
+
+useGSAP(() => {
+    const start = isMobile ? 'top 20%' : 'top top';
+    
+    const maskTimeline = gsap.timeline({
+        scrollTrigger: {
+            trigger: '#art',
+            start,
+            end: 'bottom center',
+            scrub: 1.5,
+            pin: true
+        }
+    });
+
+    maskTimeline.to('.will-fade', {
+        opacity: 0, stagger: 0.2, ease: 'power1.inOut'
+    }).to('.masked-img', { scale: 1.3, maskPosition: 'center', maskSize: '400%', duration: 1, ease: 'power1.inOut' })
+        .to('#masked-content', { opacity: 1, duration: 1, ease: 'power1.inOut' });
+}, []);
+```
+
+Es importante tener en cuenta que dependiendo del dispositivo debera empezar antes o despues, la parte clave de la animación es la propiedad pin, ya que sino la animación se haria mientras bajamos y no la veriamos y el .to()  del masked-img, ya que esto aumentara el tamaño de la imagen haciendo que sea lo suficientemente grande como para que no recorte nada de la imagen que tenemos de fondo
 
 ## Componente Menu
+
+Este componente es el componente más complicado y con más logica del proyecto, aunque bastante facil a la hora de animarlo, es importante tener en cuenta que como es un menu hecho por nosotros mismos en vez de usar uno externo ya creado, aumenta la logica del proyecto pero a la vez lo simplifica, ya que no necesitamos de documentación externas, al final cuando empezamos a importar componentes o librerias, si no lo hacemos con cuidado podemos acabar con muchas que no nos hacen falta, como seria en este caso, ya que los menus, una vez los entiendes no son demasiado complejos.
+
+Lo primero que deberemos de hacer es tener la estructura en mente, dos imagenes que seran de decoración, algo que ya es habitual en este proyecto, esto es debido a que debemos de mantener una estetica y ambientación, ya que si "simulamos" un ambiente en una pagina, deberemos de hacerlo en todas para que exista una cohesion y se sienta real/natural. 
+
+El menu tendra tanto una cabezera, el cual sera una etiqueta nav, para cambiar de coctel como flechas en cada lado.
+
+Antes de empezar deberemos de tener en cuenta que vamos a necesitar cosas como saber en que coctel estamos, para poder mostrarlo y cual es el siguiente y el anterior, eso lo podemos hacer con un poco de logica de js, para cambiar el coctel en el que nos encotramos, como estamos usando React, deberemos de hacerlo con un useState, ademas crearemos una variable para saber cuantos cocteles hay.
+
+```Javascript
+const [currentIndex, setCurrentIndex] = useState(0);
+const totalCocktails = allCocktails.length;
+```
+
+Una vez tenemos esto creado, deberemos de crear un metodo para obtener el coctel actual y obtener el coctel siguiente y anterior, por lo que haremos lo siguiente:
+
+obtendremos el index actual atraves de la constante del useState (de esta manera si damos como offSet 0, obtendremos el coctel actual), y le sumaremos el valor del boton, el cual solo va a hacer +1 o -1 (para obtener el siguiente o el previo), tendremos que sumarle al valor total de los cocteles y luego hacer el modulo por eso, una vez hecho esto, el maximo valor que nos puede dar es 3 y el minimo es 0, siendo nuestro array de 4 posiciones.
+
+```javascript
+const getCocktailAt = (indexOffset) => {
+        return allCocktails[(currentIndex + indexOffset + totalCocktails) % totalCocktails];
+    };
+```
+
+una vez con esta función creada, crearemos las siguientes constantes:
+
+```javascript
+const currentCocktail = getCocktailAt(0);
+const prevCocktail = getCocktailAt(-1);
+const nextCocktail = getCocktailAt(1);
+```
+
+Por lo que ya tenemos una forma de obtener el coctel actual, el siguiente y el anterior, ahora crearemos una forma de cambiar el coctel en el que estamos, esto se hara de una manera más facil a la anterior pero siguiendo la misma logica.
+
+En este caso, solamente necesitaremos un valor, y una vez hacemos el calculo, con ayuda del set, le ponemos como valor del index actual
+
+```javascript
+const goToSlide = (index) => {
+        const newIndex = (index + totalCocktails) % totalCocktails;
+        setCurrentIndex(newIndex);
+    };
+```
+
+En caso de la cabezara, reutilizaremos la función anterior, es importante que a la hora de mapear los cocteles, agregemos que nos muestre el index, de esta manera, tendremos una forma de comparar si el valor de dicha cabezara es igual al del useState y darle estilos propios, ademas de que necesitaremos dicho valor para pasarlo como parametro a la función anteriormente creada para que nos lleve directo.
+
+```html
+<nav className='cocktail-tabs' aria-label='Cocktail Navigation'>
+    {allCocktails.map((cocktail, index) => {
+        const isActive = index === currentIndex;
+        return (
+            <button key={cocktail.id} className={`${isActive ? 'text-white border-white' : 'text-white/50 border-white/50'}`} onClick={() => goToSlide(index)}>
+                {cocktail.name}
+            </button>
+        );
+    })}
+</nav>
+```
+
+Una vez tenemos la logica ya hecha, simplemente queda añadir las flechas con sus respectivas funciones y el contenido del menu, el cual se hara mapeando constantes.
+
+```html
+<section id='menu' aria-labelledby='menu-heading' className='overflow-hidden'>
+    <img src="/images/slider-left-leaf.png" alt="left-leaf" id='m-left-leaf' />
+    <img src="/images/slider-right-leaf.png" alt="right-leaf" id='m-right-leaf' />
+    
+    <h2 id='menu-heading' className='sr-only'>
+        Cocktail Menu
+    </h2>
+    
+    <nav className='cocktail-tabs' aria-label='Cocktail Navigation'>
+        {allCocktails.map((cocktail, index) => {
+            const isActive = index === currentIndex;
+            return (
+                <button key={cocktail.id} className={`${isActive ? 'text-white border-white' : 'text-white/50 border-white/50'}`} onClick={() => goToSlide(index)}>
+                    {cocktail.name}
+                </button>
+            );
+        })}
+    </nav>
+    
+    <div className='content'>
+    
+        <div className='arrows'>
+            <button className='text-left' onClick={() => goToSlide(currentIndex - 1)}>
+                <span>{prevCocktail.name}</span>
+                <img src="/images/right-arrow.png" alt="right-arrow" aria-hidden='true' />
+            </button>
+            <button className='text-left' onClick={() => goToSlide(currentIndex + 1)}>
+                <span>{nextCocktail.name}</span>
+                <img src="/images/left-arrow.png" alt="left-arrow" aria-hidden='true' />
+            </button>
+        </div>
+        
+        <div className='cocktail'>
+            <img src={currentCocktail.image} className='object-contain' alt="" />
+        </div>
+        
+        <div className='recipe'>
+            <div ref={contentRef} className='info'>
+                <p>Recipe for:</p>
+                <p id='title'>{currentCocktail.name}</p>
+            </div>
+            <div className='details'>
+                <h2>{currentCocktail.title}</h2>
+                <p>{currentCocktail.description}</p>
+            </div>
+        </div>
+    </div>
+</section>
+```
+
+Una vez tenemos el menu completamente funcional, solo queda darle las animaciones con gsap, las cuales seran bastante sencilla, imitaremos el efecto de una bebida deslizandose por una barra de bar y añadiremos un pequeño efecto a los textos:
+
+```javascript
+useGSAP(() => {
+        gsap.fromTo('#title', { opacity: 0 }, { opacity: 1, duration: 1 });
+        gsap.fromTo('.cocktail img', { opacity: 0, xPercent: -100 }, {
+            xPercent: 0, opacity: 1, duration: 1, ease: 'power1.inOut'
+        });
+        gsap.fromTo('.details h2', { yPercent: 100, opacity: 0 }, { yPercent: 0, opacity: 100, ease: 'power1.inOut' });
+        gsap.fromTo('.details p', { yPercent: 100, opacity: 0 }, { yPercent: 0, opacity: 1, ease: 'power1.inOut' });
+    }, [currentIndex]);
+```
 
 
