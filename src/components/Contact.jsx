@@ -33,17 +33,17 @@ const Contact = () => {
             <img src="/images/footer-right-leaf.png" alt="right-leaf" id='f-right-leaf' />
 
             <div className='content'>
-                <h2>Where to Find Us</h2>
+                <h2>This is not an offical website</h2>
 
                 <div>
-                    <h3>Visit Our Bar</h3>
-                    <p>456, Raw Blvd. #404, Los Angeles, CA90210</p>
+                    <h3>Just a clon made to learn</h3>
+                    <p>This page is made by PabloVG</p>
                 </div>
 
                 <div>
-                    <h3>Contact Us</h3>
-                    <p>(555) 987-6543</p>
-                    <p>hello@jsmcocktail.com</p>
+                    <h3>Contact me</h3>
+                    <p>+34 644 50 93 03</p>
+                    <p>PValladaresG@proton.me</p>
                 </div>
 
                 <div>

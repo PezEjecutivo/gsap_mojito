@@ -24,7 +24,7 @@ const Navbar = () => {
         <nav>
             <div>
                 <a href="#hero" className='flex items-center gap-2'>
-                    <img src="/images/logo.png" alt="logo" />
+                    <img className='w-12 h-12' src="/images/favicon.png" alt="PabloVG logo" />
                     <p>Velvet Pour</p>
                 </a>
 
